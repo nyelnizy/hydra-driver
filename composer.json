@@ -1,0 +1,55 @@
+{
+    "name": "hardcorp/hydra-client",
+    "description": "Client to communicate with the hydra server",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+		"hydra client"
+	],
+    "authors": [
+        {
+            "name": "daniel",
+            "email": "daniel@hardcorp.org"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable":true,
+    "require": {
+        "illuminate/support": "^8.0.0",
+        "ratchet/pawl": "^0.4.1"
+    },
+    "require-dev": {
+        "symfony/thanks": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hardcorp\\HydraClient\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Hardcorp\\HydraClient\\Tests\\":"tests/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/thanks": true
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Hardcorp\\HydraClient\\HydraClientServiceProvider"
+            ],
+            "aliases": {
+                "Hardcorp": "Hardcorp\\HydraClient\\HydraClientFacade"
+            }
+        }
+    }
+}
