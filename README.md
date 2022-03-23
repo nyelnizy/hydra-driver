@@ -6,7 +6,7 @@
 
 ## Description
 
-A driver for communicating with hydra server.
+Laravel interface to the hydra communicator.
 
 
 ## Install
