@@ -6,7 +6,7 @@
 
 ## Description
 
-A client for communicating with hydra server.
+A driver for communicating with hydra server.
 
 
 ## Install
@@ -14,13 +14,13 @@ Add the following to composer.json file
 ```bash
     "repositories": [{
             "type": "vcs",
-            "url": "git@github.com:nyelnizy/hydra-client.git"
+            "url": "git@github.com:hwacorp/hydra-driver.git"
         }
     ],
 ```
 Add the dependency to require block
 ```bash
-  "hardcorp/hydra-client": "dev-master"
+  "hwacorp/hydra-driver": "dev-master"
 ```
 Run
 ```bash
