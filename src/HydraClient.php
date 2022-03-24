@@ -159,6 +159,7 @@ class HydraClient
      */
     private function consumeIncomingMessage(callable $callback)
     {
+        echo "\nConsuming Pending Messages...\n";
         try {
             $messages = $this->hydraMessageRepo->getMessages();
             if ($messages->count() < 1) {
@@ -205,6 +206,7 @@ class HydraClient
             $ids = $messages->pluck('id');
             $this->hydraMessageRepo->deleteMessages($ids);
         } catch (\Exception $e) {
+            var_dump($e->getMessage()."\n");
             throw new \Exception($e);
         }
     }
@@ -244,6 +246,7 @@ class HydraClient
 
     private function consumeSystemEvents(callable $callback)
     {
+        echo "\nConsuming Pending Events...\n";
         $events = $this->hydraMessageRepo->getSystemEvents();
         $events_to_deliver = [];
         foreach ($events as $event) {
