@@ -60,7 +60,7 @@ class HydraMessageRepository implements MessageRepository
     function updateConversation(array $conversation)
     {
         $check = ['thread_id' => $conversation['thread_id'], 'sim_serial' => $conversation['sim_serial']];
-        DB::table('hydra_sms_conversations')->updateOrCreate($check, $conversation);
+        DB::table('hydra_sms_conversations')->upsert($check, $conversation);
     }
 
     function updateConversationStatus(array $ids, string $status)

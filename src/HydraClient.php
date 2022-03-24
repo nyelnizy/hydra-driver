@@ -197,7 +197,10 @@ class HydraClient
                 if ($has_attachment) {
                     $mess['attachments'] = $this->uploadIncomingMessageAttachments($attachments);
                 }
-                $this->hydraMessageRepo->updateConversation($conversation);
+                $manage = config("hydra-client.manage_chats");
+                    if($manage){
+                        $this->hydraMessageRepo->updateConversation($conversation);
+                    }
                 $full_message = $conversation;
                 $full_message['received_at'] = $mess['received_at'];
                 $sms_chats[] = ['conversation' => $conversation, 'message' => $mess, 'full_message' => $full_message];
