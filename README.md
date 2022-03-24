@@ -14,13 +14,13 @@ Add the following to composer.json file
 ```bash
     "repositories": [{
             "type": "vcs",
-            "url": "git@github.com:hwacorp/hydra-driver.git"
+            "url": "git@github.com:nyelnizy/hydra-driver.git"
         }
     ],
 ```
 Add the dependency to require block
 ```bash
-  "hwacorp/hydra-driver": "dev-master"
+  "nyelnizy/hydra-driver": "dev-master"
 ```
 Run
 ```bash
