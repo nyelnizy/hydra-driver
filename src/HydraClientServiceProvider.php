@@ -20,8 +20,8 @@ class HydraClientServiceProvider extends ServiceProvider
 
         $this->publishConfig();
 
-        $config =  \Config::get('hydra-client::hydra-client.hydra_db');
-        \Config::set('database.connections.hydra',$config??\Config::get('hydra-client.hydra_db'));
+        $config =  \Config::get('hydra-client::hydra-client.hydra');
+        \Config::set('database.connections.hydra',$config??\Config::get('hydra-client.hydra'));
     }
 
     /**
