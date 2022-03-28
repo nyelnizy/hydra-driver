@@ -22,7 +22,7 @@ class HydraMessageRepository implements MessageRepository
             ->delete();
     }
 
-    function deleteMessageStatuses(Collection $ids, string $type)
+    function deleteMessageStatuses(array $ids, string $type)
     {
         DB::connection('hydra')
             ->table('message_statues')

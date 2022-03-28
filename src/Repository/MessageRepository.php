@@ -13,7 +13,7 @@ function getMessages(): Collection;
 function getSystemEvents(): Collection;
 function deleteMessages(Collection $ids);
 function deleteSystemEvents(Collection $ids);
-function deleteMessageStatuses(Collection $ids, string $type);
+function deleteMessageStatuses(array $ids, string $type);
 function saveMessage(array $message);
 function getConversationsQuery():Builder;
 function updateConversation(array $conversation);
