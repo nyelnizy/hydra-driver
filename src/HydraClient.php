@@ -4,11 +4,11 @@
 namespace Hardcorp\HydraClient;
 
 
+use GuzzleHttp\Psr7\UploadedFile;
 use Hardcorp\HydraClient\Repository\MessageRepository;
 use Hardcorp\HydraClient\Repository\HydraMessageRepository;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class HydraClient
 {
@@ -41,7 +41,6 @@ class HydraClient
                     $this->hydraMessageRepo->deleteMessageStatuses($data->payload, 'submitted');
                 }
                 if ($status === 'sent') {
-                    $this->hydraMessageRepo->updateConversationStatus($data->payload, 'sent');
                     $callback($data->payload, HydraMessageType::$SENT);
                     $this->hydraMessageRepo->deleteMessageStatuses($data->payload, 'sent');
                 }
@@ -49,7 +48,6 @@ class HydraClient
                     $this->consumeIncomingMessage($callback);
                 }
                 if ($status === "failed") {
-                    $this->hydraMessageRepo->updateConversationStatus($data->payload, 'failed');
                     $callback($data->payload, HydraMessageType::$FAILED);
                     $this->hydraMessageRepo->deleteMessageStatuses($data->payload, 'failed');
                 }
@@ -85,31 +83,18 @@ class HydraClient
                                 int $subscription_id = null)
     {
 
-        $manage_chats = config("hydra-client.manage_chats");
-        if($manage_chats){
-            $this->hydraMessageRepo->saveMessage([
-                'thread_id' => $thread_id,
-                'id_mr_friday' => $id_mr_friday,
-                'device_id' => $device_id,
-                'sim_serial' => $sim_serial,
-                'subscription_id' => $subscription_id ?? -1,
-                'participant_address' => $participant_address,
-                'message' => $message,
-                'attachments' => json_encode($this->base64Files),
-                'created_at' => now()
-            ]);
-        }
-        $conversation = [
+        $this->hydraMessageRepo->saveMessage([
             'thread_id' => $thread_id,
+            'id_mr_friday' => $id_mr_friday,
+            'device_id' => $device_id,
             'sim_serial' => $sim_serial,
-            'last_message' => $message,
-            'has_attachment' => count($this->base64Files) > 0,
-            'can_reply' => true,
-            'last_message_status' => 'submitted',
-            'last_message_id_mf' => $id_mr_friday,
-            'date' => now(),
-        ];
-        $this->hydraMessageRepo->updateConversation($conversation);
+            'subscription_id' => $subscription_id ?? -1,
+            'participant_address' => $participant_address,
+            'message' => $message,
+            'attachments' => json_encode($this->base64Files),
+            'created_at' => now()
+        ]);
+
         $url = config("hydra-client.hydra_server");
 
         \Ratchet\Client\connect("$url/signal")->then(function ($conn) use ($sim_serial) {
@@ -197,10 +182,6 @@ class HydraClient
                 if ($has_attachment) {
                     $mess['attachments'] = $this->uploadIncomingMessageAttachments($attachments);
                 }
-                $manage = config("hydra-client.manage_chats");
-                    if($manage){
-                        $this->hydraMessageRepo->updateConversation($conversation);
-                    }
                 $full_message = $conversation;
                 $full_message['received_at'] = $mess['received_at'];
                 $sms_chats[] = ['conversation' => $conversation, 'message' => $mess, 'full_message' => $full_message];
@@ -209,7 +190,7 @@ class HydraClient
             $ids = $messages->pluck('id');
             $this->hydraMessageRepo->deleteMessages($ids);
         } catch (\Exception $e) {
-            var_dump($e->getMessage()."\n");
+            var_dump($e->getMessage() . "\n");
             throw new \Exception($e);
         }
     }
