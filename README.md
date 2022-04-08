@@ -20,7 +20,7 @@ Add the following to composer.json file
 ```
 Add the dependency to require block
 ```bash
-  "nyelnizy/hydra-driver": "dev-master"
+  "hardcorp/hydra-driver": "dev-master"
 ```
 Run
 ```bash

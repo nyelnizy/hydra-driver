@@ -1,10 +1,10 @@
 {
-    "name": "hardcorp/hydra-client",
+    "name": "hardcorp/hydra-driver",
     "description": "Client to communicate with the hydra server",
     "type": "library",
     "license": "MIT",
     "keywords": [
-		"hydra client"
+		"hydra driver"
 	],
     "authors": [
         {

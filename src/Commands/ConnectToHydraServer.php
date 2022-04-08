@@ -66,7 +66,7 @@ class ConnectToHydraServer extends Command
             }
             if($type===HydraMessageType::$USER_EVENT){
                 //payload contains a list of ids of failed messages
-                echo "New System Event...";
+                echo "New User Event...";
             }
         });
     }
