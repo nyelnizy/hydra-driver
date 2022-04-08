@@ -15,7 +15,8 @@
     "minimum-stability": "dev",
     "prefer-stable":true,
     "require": {
-        "illuminate/support": "^8.0.0",
+        "illuminate/http": "^9.7",
+        "illuminate/support": "^9.0.0",
         "ratchet/pawl": "^0.4.1"
     },
     "require-dev": {

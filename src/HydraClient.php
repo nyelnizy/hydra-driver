@@ -4,9 +4,9 @@
 namespace Hardcorp\HydraClient;
 
 
-use GuzzleHttp\Psr7\UploadedFile;
 use Hardcorp\HydraClient\Repository\MessageRepository;
 use Hardcorp\HydraClient\Repository\HydraMessageRepository;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
