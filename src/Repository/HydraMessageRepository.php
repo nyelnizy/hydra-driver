@@ -74,7 +74,6 @@ class HydraMessageRepository implements MessageRepository
     {
         return DB::connection('hydra')
             ->table($table)
-            ->select(['sim_serial', 'device_id', 'type', 'date'])
             ->get();
     }
 
