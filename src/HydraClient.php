@@ -35,24 +35,27 @@ class HydraClient
             $this->consumeIncomingMessage($callback);
             $conn->on('message', function ($msg) use ($conn, $callback) {
                 $data = json_decode($msg);
-                $status = $data->status;
-                if ($status === "submitted") {
+                $event = $data->status;
+                if ($event === "submitted") {
                     $callback($data->payload, HydraMessageType::$SUBMITTED);
                     $this->hydraMessageRepo->deleteMessageStatuses($data->payload, 'submitted');
                 }
-                if ($status === 'sent') {
+                if ($event === 'sent') {
                     $callback($data->payload, HydraMessageType::$SENT);
                     $this->hydraMessageRepo->deleteMessageStatuses($data->payload, 'sent');
                 }
-                if ($status === 'received') {
+                if ($event === 'received') {
                     $this->consumeIncomingMessage($callback);
                 }
-                if ($status === "failed") {
+                if ($event === "failed") {
                     $callback($data->payload, HydraMessageType::$FAILED);
                     $this->hydraMessageRepo->deleteMessageStatuses($data->payload, 'failed');
                 }
-                if ($status === "system_events_received") {
+                if ($event === "system_event") {
                     $this->consumeSystemEvents($callback);
+                }
+                if ($event === "user_event") {
+                    $this->consumeUserEvents($callback);
                 }
             });
             $conn->on('close', function ($code = null, $reason = null) use ($callback) {
@@ -231,7 +234,7 @@ class HydraClient
     private function consumeSystemEvents(callable $callback)
     {
         echo "\nConsuming Pending Events...\n";
-        $events = $this->hydraMessageRepo->getSystemEvents();
+        $events = $this->hydraMessageRepo->getEvents("system_events");
         $events_to_deliver = [];
         foreach ($events as $event) {
             $event = (array)$event;
@@ -242,6 +245,23 @@ class HydraClient
             $events_to_deliver[] = $ev;
         }
         $callback($events_to_deliver, HydraMessageType::$SYSTEM_EVENT);
-        $this->hydraMessageRepo->deleteSystemEvents($events->pluck('id'));
+        $this->hydraMessageRepo->deleteEvents("system_events",$events->pluck('id'));
+    }
+
+    private function consumeUserEvents(callable $callback)
+    {
+        echo "\nConsuming Pending Events...\n";
+        $events = $this->hydraMessageRepo->getEvents("user_events");
+        $events_to_deliver = [];
+        foreach ($events as $event) {
+            $event = (array)$event;
+            $ev['type'] = $event['type'];
+            $ev['sim_serial'] = $event['sim_serial'];
+            $ev['device_id'] = $event['device_id'];
+            $ev['date'] = $event['date'];
+            $events_to_deliver[] = $ev;
+        }
+        $callback($events_to_deliver, HydraMessageType::$USER_EVENT);
+        $this->hydraMessageRepo->deleteEvents("user_events",$events->pluck('id'));
     }
 }

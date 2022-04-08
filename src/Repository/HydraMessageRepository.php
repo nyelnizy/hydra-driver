@@ -70,18 +70,18 @@ class HydraMessageRepository implements MessageRepository
             ->update(['last_message_status' => $status]);
     }
 
-    function getSystemEvents(): Collection
+    function getEvents(string $table): Collection
     {
         return DB::connection('hydra')
-            ->table('system_events')
+            ->table($table)
             ->select(['sim_serial', 'device_id', 'type', 'date'])
             ->get();
     }
 
-    function deleteSystemEvents(Collection $ids)
+    function deleteEvents(string $table,Collection $ids)
     {
         DB::connection('hydra')
-            ->table('system_events')
+            ->table($table)
             ->whereIn('id', $ids)
             ->delete();
     }

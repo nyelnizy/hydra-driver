@@ -11,4 +11,5 @@ static $FAILED = 2;
 static $SENT = 3;
 static $SUBMITTED = 4;
 static $SYSTEM_EVENT = 5;
+static $USER_EVENT = 6;
 }
