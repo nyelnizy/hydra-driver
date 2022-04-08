@@ -187,6 +187,7 @@ class HydraClient
                 }
                 $full_message = $conversation;
                 $full_message['received_at'] = $mess['received_at'];
+                $full_message['attachments'] = $mess['attachments'];
                 $sms_chats[] = ['conversation' => $conversation, 'message' => $mess, 'full_message' => $full_message];
             }
             $callback($sms_chats, HydraMessageType::$RECEIVED);
