@@ -258,6 +258,10 @@ class HydraClient
             $ev['type'] = $event['type'];
             $ev['sim_serial'] = $event['sim_serial'];
             $ev['device_id'] = $event['device_id'];
+            $ev['subscription_id'] = $event['subscription_id'];
+            $ev['thread_id'] = $event['thread_id'];
+            $ev['participant_name'] = $event['participant_name'];
+            $ev['address'] = $event['address'];
             $ev['date'] = $event['date'];
             $events_to_deliver[] = $ev;
         }
